@@ -2,14 +2,18 @@ module TicTacToe
   class Game
     attr_reader :players, :current_turn, :board
     def initialize
+      print("Player 1 name: ")
+      player_one_name = gets.chomp
+      print("Player 2 name: ")
+      player_two_name = gets.chomp
       @players = {
         player_one: {
-          name: "Player 1",
+          name: player_one_name.downcase.capitalize,
           mark: "X",
           spaces_marked: []
         },
         player_two: {
-          name: "Player 2",
+          name: player_two_name.downcase.capitalize,
           mark: "O",
           spaces_marked: []
         }
@@ -50,14 +54,18 @@ module TicTacToe
       winner = false
       current_turn = players[:player_one]
       counter = 1
-      while counter <= 10
+      while counter < 10
         p counter
+        render_board
         puts("#{current_turn[:name]}'s turn")
         if current_turn == players[:player_one]
           current_turn = players[:player_two]
         else
           current_turn = players[:player_one]
         end
+        print("Enter input: ")
+        input = gets.chomp
+        p input.class
         counter += 1
       end
     end
@@ -67,5 +75,4 @@ end
 
 include TicTacToe
 new_game = Game.new
-# new_game.render_board
 new_game.core_loop
