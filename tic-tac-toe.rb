@@ -4,8 +4,14 @@ module TicTacToe
     def initialize
       print("Player 1 name: ")
       player_one_name = gets.chomp
+      if player_one_name == ""
+        player_one_name = "Player 1"
+      end
       print("Player 2 name: ")
       player_two_name = gets.chomp
+      if player_two_name == ""
+        player_two_name = "Player 2"
+      end
       @players = {
         player_one: {
           name: player_one_name.downcase.capitalize,
@@ -50,12 +56,28 @@ module TicTacToe
       )
     end
 
+    def place_marker
+      begin
+        input = 0
+        while input < 1 || input > 9
+          print("Enter a number from 1 - 9: ")
+          input = gets.chomp
+          input = Integer(input)
+          if input < 1 || input > 9
+            print("Invalid input!\n")            
+          end
+        end
+      rescue Exception
+        print("\nInvalid input!\n")
+        retry
+      end
+    end
+
     def core_loop
-      winner = false
       current_turn = players[:player_one]
-      counter = 1
-      while counter < 10
-        p counter
+      round_counter = 1
+      while round_counter < 10
+        puts("\nRound: #{round_counter}")
         render_board
         puts("#{current_turn[:name]}'s turn")
         if current_turn == players[:player_one]
@@ -63,10 +85,8 @@ module TicTacToe
         else
           current_turn = players[:player_one]
         end
-        print("Enter input: ")
-        input = gets.chomp
-        p input.class
-        counter += 1
+        place_marker  
+        round_counter += 1
       end
     end
 
